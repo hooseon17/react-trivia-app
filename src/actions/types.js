@@ -1,0 +1,3 @@
+export const FETCH_QUESTIONS = 'FETCH_QUESTIONS';
+export const SUBMIT_ANSWER = 'SUBMIT_ANSWER';
+export const TRY_AGAIN = 'TRY_AGAIN';
