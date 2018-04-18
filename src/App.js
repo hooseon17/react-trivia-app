@@ -4,7 +4,6 @@ import './App.css';
 import { Provider } from 'react-redux';
 
 import Question from './components/Question';
-import Result from './components/Result';
 
 import store from './store';
 

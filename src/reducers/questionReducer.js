@@ -8,7 +8,8 @@ const initialState = {
     currentAnswer: '',
     category: '',
     score: 0,
-    finished: false
+    finished: false,
+    userAnswers: []
 }
 
 export default function (state = initialState, action) {
@@ -24,27 +25,29 @@ export default function (state = initialState, action) {
                 questionCounter: state.questionCounter += 1,
             }
         case SUBMIT_ANSWER:
-            if (state.questionCounter >= 10) {
-                if (action.payload === state.currentAnswer) {
+            if (state.questionCounter >= 10) {  // LAST QUESTION
+                if (action.payload === state.currentAnswer) {   // CORRECT
                     return {
                         ...state,
                         score: state.score += 1,
                         currentQuestion: '',
                         currentAnswer: '',
                         category: '',
-                        finished: true
+                        finished: true,
+                        userAnswers: [...state.userAnswers, ('[+] Question: ' + state.currentQuestion + ' Answer: ' + state.currentAnswer)]
                     }
-                } else {
+                } else {    // WRONG
                     return {
                         ...state,
                         currentQuestion: '',
                         currentAnswer: '',
                         category: '',
-                        finished: true
+                        finished: true,
+                        userAnswers: [...state.userAnswers, ('[-] Question: ' + state.currentQuestion + ' Answer: ' + state.currentAnswer)]
                     }
                 }
             } else {
-                if (action.payload === state.currentAnswer) {
+                if (action.payload === state.currentAnswer) {   // CORRECT
                     return {
                         ...state,
                         score: state.score += 1,
@@ -52,14 +55,16 @@ export default function (state = initialState, action) {
                         currentAnswer: state.questionList[state.questionCounter].correct_answer,
                         category: state.questionList[state.questionCounter].category,
                         questionCounter: state.questionCounter += 1,
+                        userAnswers: [...state.userAnswers, ('[+] Question: ' + state.currentQuestion + ' Answer: ' + state.currentAnswer)]
                     }
-                } else {
+                } else {    // WRONG
                     return {
                         ...state,
                         currentQuestion: state.questionList[state.questionCounter].question,
                         currentAnswer: state.questionList[state.questionCounter].correct_answer,
                         category: state.questionList[state.questionCounter].category,
                         questionCounter: state.questionCounter += 1,
+                        userAnswers: [...state.userAnswers, ('[-] Question: ' + state.currentQuestion + ' Answer: ' + state.currentAnswer)]
                     }
                 }
             }
@@ -73,7 +78,8 @@ export default function (state = initialState, action) {
                 currentAnswer: '',
                 category: '',
                 score: 0,
-                finished: false
+                finished: false,
+                userAnswers: []
             }
         default:
             return state;

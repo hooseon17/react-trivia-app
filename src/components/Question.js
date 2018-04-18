@@ -16,7 +16,7 @@ class Question extends Component {
         this.props.tryAgain();
     }
 
-    decodeQuestion = (encoded) => {
+    decodeQuestion = (encoded) => { // The fetched data from the url gives some encoded characters
         let decoded = '';
         decoded = encoded.replace(/&amp;/g, '&');
         decoded = decoded.replace(/&quot;/g, '"');
@@ -42,9 +42,17 @@ class Question extends Component {
                 <button value="False" onClick={(event) => this.submitAnswerHandler(event)}>False</button>
             </div>
         ) : (null)
+
+        const result = this.props.userAnswers.map(r => (
+            <div>
+                <p>{this.decodeQuestion(r)}</p>
+            </div>
+        ))
+
         const end = (this.props.finished) ? (
             <div>
-                <p>{'You got ' + (this.props.score/0.1) + '%!'}</p>
+                { result }
+                <h3>{'You got ' + (this.props.score/0.1) + '%!'}</h3>
                 <button onClick={() => this.tryAgainHandler()}>Try Again?</button>
             </div>
         ) : (null);
@@ -66,7 +74,8 @@ const mapStateToProps = state => ({
     currentAnswer: state.questions.currentAnswer,
     category: state.questions.category,
     score: state.questions.score,
-    finished: state.questions.finished
+    finished: state.questions.finished,
+    userAnswers: state.questions.userAnswers
 });
 
 export default connect(mapStateToProps, { fetchQuestions, submitAnswer, tryAgain })(Question);
