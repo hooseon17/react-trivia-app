@@ -23,7 +23,7 @@ class Question extends Component {
         decoded = decoded.replace(/&#039;/g, "'");
         decoded = decoded.replace(/&rsquo;/g, "'");
         return decoded;
-      }
+    }
 
     render() {
         const start = (!(this.props.hideIntro) && !(this.props.finished)) ? (
@@ -43,16 +43,16 @@ class Question extends Component {
             </div>
         ) : (null)
 
-        const result = this.props.userAnswers.map(r => (
+        const result = (this.props.finished) ? this.props.userAnswers.map(r => (
             <div>
                 <p>{this.decodeQuestion(r)}</p>
             </div>
-        ))
+        )) : (null)
 
         const end = (this.props.finished) ? (
             <div>
-                { result }
-                <h3>{'You got ' + (this.props.score/0.1) + '%!'}</h3>
+                {result}
+                <h3>{'You got ' + (this.props.score / 0.1) + '%!'}</h3>
                 <button onClick={() => this.tryAgainHandler()}>Try Again?</button>
             </div>
         ) : (null);
